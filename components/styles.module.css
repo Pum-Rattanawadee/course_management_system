@@ -1,0 +1,25 @@
+.courseCardHeader {
+    font-size: 0.9vw;
+    color: #00532a;
+    min-height: 44.8px;
+}
+
+.courseCardImgDetail {
+    width: 20px;
+    border-radius: 50%;
+}
+
+.courseCardDetail {
+    font-size: 0.8vw;
+}
+
+.priceDetail {
+    .price {
+        font-size: 0.9vw;
+        color: #57a267;
+    }
+    .unit {
+        font-size: 0.8vw;
+        margin-left: 5px;
+    }
+}
