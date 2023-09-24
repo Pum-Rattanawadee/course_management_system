@@ -4,7 +4,7 @@ import { CourseService } from "../../services/courseServices";
 
 export const useCourse = (filterData?: SearchCoursesDTO) => {
     const course = async () => {
-        const courseAPI = new CourseService("")
+        const courseAPI = new CourseService("http://159.65.218.149:3030")
         let queryString = ""
         console.log(filterData)
         if (filterData != null){
@@ -31,7 +31,7 @@ export const useCourse = (filterData?: SearchCoursesDTO) => {
 
 export const useCreateCourse = (createCoursesDTO:CreateCoursesDTO) => {
     const course = async () => {
-        const courseAPI = new CourseService("")
+        const courseAPI = new CourseService("http://159.65.218.149:3030")
         const courses = await courseAPI.createcourses(createCoursesDTO)
 
         return  {statusCode: 200 ,data:courses}
@@ -42,7 +42,7 @@ export const useCreateCourse = (createCoursesDTO:CreateCoursesDTO) => {
 
 export const useUploadFile = (file:File) => {
     const course = async () => {
-        const courseAPI = new CourseService("")
+        const courseAPI = new CourseService("http://159.65.218.149:3030")
         const fileName = await courseAPI.uploadfile(file)
 
         return  {statusCode: 200 ,data:fileName}
