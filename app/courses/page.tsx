@@ -21,7 +21,6 @@ export default function Courses() {
     let [searchDate, setSearchDate] = useState<Date | undefined>();
     const userRole = Cookies.get("userrole") as string
     const [isShowCreateModal, setIsShowCreateModal] = useState(false)
-    const [isSearchModal, setIsSearchModal] = useState(false)
    
     const FuncGetCourses = async () => {
       
@@ -29,23 +28,6 @@ export default function Courses() {
 
         setCourses(data);
       };
-
-    const RenderMenu = (userrole:any) => {
-        if (userrole.userrole != 'instructor') {
-            return (
-                <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
-                </ul>
-            )
-        } else {
-            return ( 
-                <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#" onClick={showCreateModal}>สร้างหลักสูตร</a></li>
-                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
-                </ul>
-            )
-        }
-    }
     
     const createCourseModal = () => {
         const { Modal } = require("bootstrap");
@@ -102,11 +84,10 @@ export default function Courses() {
                 <a className="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     Menu
                 </a>
-                    {
-                       <RenderMenu userrole={userRole}></RenderMenu>
-                    }
-
-                
+                <ul className="dropdown-menu">
+                    {userRole == 'instructor' && <li><a className="dropdown-item" href="#" onClick={showCreateModal}>สร้างหลักสูตร</a></li>}
+                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
+                </ul>
             </li>
         </nav>
         <div className="container-lg">
