@@ -29,28 +29,23 @@ const CourseForm = ({ setIsShowCreateModal }: ModalProps) => {
    
 
     const [course, setCourse] = useState(courseDTO)
-    const [isUploadDone, setisUploadDone] = useState(false)
+    const [isUploadDone, setIsUploadDone] = useState(false)
 
     const  UserUploadFile = async () =>  {
      
-        if (fileCoverValue != null){
+    
            const responseUpload = await useUploadFile(fileCoverValue as File).course()
            if(responseUpload.statusCode == 200){
              course.image =responseUpload.data
-             setisUploadDone(true)
+             setIsUploadDone(true)
            }
-        }
+        
       
      }
 
     const  UserCreateCourse = async () =>  {
      
-        if (fileCoverValue != null){
-           const responseUpload = await useUploadFile(fileCoverValue as File).course()
-           if(responseUpload.statusCode == 200){
-             course.image =responseUpload.data
-           }
-        }
+     
         await useCreateCourse(course).course()
         
         setIsShowCreateModal(false)

@@ -14,7 +14,7 @@ import { faSearch, faClock } from '@fortawesome/free-solid-svg-icons'
 import  Cookies  from "js-cookie"
 let createCourseFormModal: any
 
-export default function courses() {
+export default function Courses() {
    //SearchCoursesDTO
     let [courses, setCourses] = useState<CoursesResponse[]>()
     const [filterData, setFilterData] = useState<SearchCoursesDTO>();
@@ -23,8 +23,8 @@ export default function courses() {
     const [isShowCreateModal, setIsShowCreateModal] = useState(false)
     const [isSearchModal, setIsSearchModal] = useState(false)
    
-    const funcGetCourses = async () => {
-        console.log(filterData)
+    const FuncGetCourses = async () => {
+      
         const { data } =   await useCourse(filterData).course()
 
         setCourses(data);
@@ -90,7 +90,7 @@ export default function courses() {
     useEffect(() => {
       
         createCourseModal()
-        funcGetCourses();
+        FuncGetCourses();
     }, [isShowCreateModal]);
 
 
@@ -128,7 +128,7 @@ export default function courses() {
                             selected={searchDate}
                             showTimeInput
                             onChange={(date:Date) => setDate(date)} />
-                        <button className="btn btn-outline-secondary" type="button"  onClick={funcGetCourses}>ค้นหา</button>
+                        <button className="btn btn-outline-secondary" type="button"  onClick={FuncGetCourses}>ค้นหา</button>
                     </div>
                 </div>
             </div>

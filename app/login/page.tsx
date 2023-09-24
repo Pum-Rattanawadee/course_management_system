@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLogin } from './useLogin';
 
-export default function login() {
+export default function Login() {
     const router = useRouter();
     const userLogin = {username: '', password: ''}
     const [login, setLogin] = useState(userLogin)
