@@ -19,7 +19,8 @@ export class AuthService {
         .then((res) => {
             return {
                 username: res.data.response.user.username,
-                token: res.data.response.token
+                token: res.data.response.token,
+                role: res.data.response.user.role
             }
         })
     }

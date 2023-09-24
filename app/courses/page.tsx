@@ -1,34 +1,64 @@
 'use client';
 
 import React, { useState, useEffect } from 'react'
+import DatePicker from "react-datepicker";
+
 import CourseCard from "../../components/course-card";
 import { useCourse } from './useCourse';
-import { CoursesResponse } from "../../model/courseModel";
+import { CoursesResponse, SearchCoursesDTO } from "../../model/courseModel";
 import CourseForm from './create';
+import { useRouter } from 'next/navigation'
+import { useLogout } from '../login/useLogout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faClock } from '@fortawesome/free-solid-svg-icons'
+import  Cookies  from "js-cookie"
+let createCourseFormModal: any
 
 export default function courses() {
-   
+   //SearchCoursesDTO
     let [courses, setCourses] = useState<CoursesResponse[]>()
-    const [isCreated, setIsCreated] = useState(false)
-    const [showModal, setShowModal] = useState(true);
-    const [isShowCreateModal, setIsShowCreateModal] = useState(true)
-    let createCourseFormModal: any
+    const [filterData, setFilterData] = useState<SearchCoursesDTO>();
+    let [searchDate, setSearchDate] = useState<Date | undefined>();
+    const userRole = Cookies.get("userrole") as string
+    const [isShowCreateModal, setIsShowCreateModal] = useState(false)
+    const [isSearchModal, setIsSearchModal] = useState(false)
+   
+    const funcGetCourses = async () => {
+        console.log(filterData)
+        const { data } =   await useCourse(filterData).course()
+
+        setCourses(data);
+      };
+
+    const RenderMenu = (userrole:any) => {
+        if (userrole == 'instructor') {
+            return ( 
+                <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="#" onClick={showCreateModal}>สร้างหลักสูตร</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
+                </ul>
+            )
+        }
+        return (
+            <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
+                </ul>
+        )
+    }
     
     const createCourseModal = () => {
-        // let createCourseFormModal = new Modal("#createCourseModal")
         const { Modal } = require("bootstrap");
         if (!createCourseFormModal) {
             createCourseFormModal = new Modal("#createCourseModal")
         }
-        console.log(createCourseFormModal)
-        if (!isShowCreateModal) {
-            console.log("show")
+        if (isShowCreateModal) {
             createCourseFormModal.show();
+          
             
         } else {
-            console.log("hide")
             createCourseFormModal.hide();
         }
+       
     };
 
     const showCreateModal = () => {
@@ -36,29 +66,72 @@ export default function courses() {
         createCourseModal()
     }
 
-    useEffect(() => {
-        const funcGetCourses = async () => {
-          const { data } =   await useCourse().course()
+    const updateFieldFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const field = e.target.name
+        setFilterData({...filterData, [field]: e.target.value})
+    }
 
-          setCourses(data);
- 
-        };
-        console.log('in useEffect')
-        console.log(showModal)
-        setIsShowCreateModal(!showModal)
+    const setDate = (date: Date) => {
+        setSearchDate(date)
+        let dateFormat: string = ""
+        if (date) {
+            dateFormat = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+        }
+        setFilterData({ ...filterData, ["startTime"]:dateFormat })
+    }
+
+
+    const router = useRouter();
+    const  UserLogout = () =>  {
+        useLogout().logout()
+        router.replace("/login")     
+    }
+
+    useEffect(() => {
+      
         createCourseModal()
         funcGetCourses();
-    }, [showModal]);
+    }, [isShowCreateModal]);
 
 
     return (
-        <div className="container-lg">
-            <h1 className="mt-2 text-center">หลักสูตรทั้งหมด</h1>
+        <>
+        <nav className="nav nav-pills bg-danger justify-content-end">
+            <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    Menu
+                </a>
+                    {
+                       <RenderMenu userrole={userRole}></RenderMenu>
+                    }
 
-            <button className="btn btn-primary" onClick={showCreateModal}>สร้างหลักสูตร</button>
-           
+                
+            </li>
+        </nav>
+        <div className="container-lg">
+            <h3 className="mt-3 text-center">หลักสูตรทั้งหมด</h3>
             <hr />
-           
+            <div className="row">
+                <div className="col-12 col-lg-7">
+                    <div className="input-group mb-1 w-100">
+                        <span className="input-group-text"><FontAwesomeIcon icon={faSearch} /></span>
+                        <input type="text" className="form-control" placeholder="ชื่อหลักสูตร" aria-label="ชื่อหลักสูตร" name='name' onChange={updateFieldFilter}/>
+                    </div>
+                </div>
+                <div className="col-12 col-lg-5">
+                    <div className="input-group mb-3 w-100">
+                        <span className="input-group-text"><FontAwesomeIcon icon={faClock} /></span>
+                        <DatePicker
+                            className="form-control rounded-0"
+                            timeInputLabel="Time:"
+                            dateFormat="dd/MM/yyyy HH:mm"
+                            selected={searchDate}
+                            showTimeInput
+                            onChange={(date:Date) => setDate(date)} />
+                        <button className="btn btn-outline-secondary" type="button"  onClick={funcGetCourses}>ค้นหา</button>
+                    </div>
+                </div>
+            </div>
             <div className="row row-cols-lg-5 row-cols-1">
                 {
                     courses?.map((course,index) => (
@@ -71,7 +144,8 @@ export default function courses() {
                 }
             </div>
 
-            <CourseForm setShowModal={setShowModal} />
+            <CourseForm setIsShowCreateModal={setIsShowCreateModal} />
         </div>
+        </>
     )
 }

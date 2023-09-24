@@ -10,8 +10,17 @@ const nextConfig = {
             source: '/course',
             destination: 'http://localhost:3030/course',
           },
+          {
+            source: '/course/upload',
+            destination: 'http://localhost:3030/course/upload',
+          },
         ]
-    }
+    },
+    images: {
+      domains: [''],
+      path: '',
+      loader: 'imgix',
+    },
 }
 
 module.exports = nextConfig

@@ -32,3 +32,8 @@ export type CoursesResponse = {
     creditPrice:number
     nonCreditPrice: number
   }
+
+  export type SearchCoursesDTO = {
+    name?: string 
+    startTime?: string 
+  }

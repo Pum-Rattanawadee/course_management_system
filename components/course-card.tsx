@@ -21,23 +21,23 @@ const CourseCard = (props:any) => {
                         <div className="col-12 col-lg-10"><span className={styles.courseCardDetail}>{courseData.instructorInfo.firstName} {courseData.instructorInfo.lastName}</span></div>
                     </div>
                 </div>
-                <div className="d-none d-lg-block col-lg-12">
+                {/* <div className="d-none d-lg-block col-lg-12">
                     <div className="row">
                         <div className="col-lg-2">
                             <img className={styles.courseCardImgDetail} src="https://resource.skilllane.com/users/images/001/149/067/thumb/1200px-Emblem_of_Thammasat_University.svg.png?1565079967"/>
                         </div>
                         <div className="col-lg-10"><span className={styles.courseCardDetail}>มหาวิทยาลัยธรรมศาสตร์</span></div>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-lg-12 text-end mt-3">
                     <div className={styles.priceDetail}>
-                        <span className={styles.price}>1,500 บาท</span>
+                        <span className={styles.price}>{courseData.nonCreditPrice?.toLocaleString()} บาท</span>
                         <span className={styles.unit}>ไม่เก็บหน่วยกิต</span>
                     </div>
                 </div>
                 <div className="col-lg-12 text-end mb-2">
                     <div className={styles.priceDetail}>
-                        <span className={styles.price}>4,500 บาท</span>
+                        <span className={styles.price}>{courseData.creditPrice?.toLocaleString()} บาท</span>
                         <span className={styles.unit}>เก็บหน่วยกิต</span>
                     </div>
                 </div>

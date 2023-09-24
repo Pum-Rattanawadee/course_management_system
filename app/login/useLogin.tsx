@@ -8,6 +8,7 @@ export const useLogin = () => {
         const user = await auth.login(username, password)
         if (user) {
             Cookies.set("accesstoken", user.token)
+            Cookies.set("userrole", user.role)
         }
 
         return  {statusCode: 200 ,data:user}

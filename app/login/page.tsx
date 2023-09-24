@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useLogin } from './useLogin';
 
 export default function login() {
@@ -21,7 +21,7 @@ export default function login() {
     }
     return (
         <div className='container'>
-            <div className='row justify-content-md-center'>
+            <div className='row justify-content-md-center mt-lg-5'>
                 <div className='col-xs-12 col-md-4 border rounded p-5'>
                     <div className='row mb-3'>
                         <label className='form-label'>Username: </label>
