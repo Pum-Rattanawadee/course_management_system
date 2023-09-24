@@ -5,6 +5,11 @@ import { protectedRoutes, authRoutes } from "@/router/routes";
 export function middleware(request: NextRequest) {
     const accesstoken = request.cookies.get("accesstoken")?.value
 
+    if (request.nextUrl.pathname == '/') {
+        const response = NextResponse.redirect(new URL("/login", request.url))
+        return response
+    }
+
     if (protectedRoutes.includes(request.nextUrl.pathname) && (!accesstoken)) {
         request.cookies.delete("accesstoken")
         const response = NextResponse.redirect(new URL("/login", request.url))

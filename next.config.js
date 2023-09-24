@@ -3,16 +3,8 @@ const nextConfig = {
     async rewrites() {
         return [
           {
-            source: '/auth',
-            destination: 'http://localhost:3030/auth',
-          },
-          {
-            source: '/course',
-            destination: 'http://localhost:3030/course',
-          },
-          {
-            source: '/course/upload',
-            destination: 'http://localhost:3030/course/upload',
+            source: '/:path*',
+            destination: 'http://159.65.218.149:3030/:path*',
           },
         ]
     },
