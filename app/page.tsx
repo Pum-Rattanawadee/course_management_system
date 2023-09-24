@@ -1,3 +1,8 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
 export default function Page() {
-    return <h1>Hello, Next.js!</h1>
+    const router = useRouter();
+    router.replace("/login")
 }
