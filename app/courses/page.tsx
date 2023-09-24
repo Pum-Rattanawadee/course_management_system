@@ -31,7 +31,13 @@ export default function Courses() {
       };
 
     const RenderMenu = (userrole:any) => {
-        if (userrole == 'instructor') {
+        if (userrole.userrole != 'instructor') {
+            return (
+                <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
+                </ul>
+            )
+        } else {
             return ( 
                 <ul className="dropdown-menu">
                     <li><a className="dropdown-item" href="#" onClick={showCreateModal}>สร้างหลักสูตร</a></li>
@@ -39,11 +45,6 @@ export default function Courses() {
                 </ul>
             )
         }
-        return (
-            <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#" onClick={UserLogout}>ออกจากระบบ</a></li>
-                </ul>
-        )
     }
     
     const createCourseModal = () => {
